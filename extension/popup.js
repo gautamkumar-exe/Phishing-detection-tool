@@ -1,43 +1,55 @@
-document.getElementById("check").addEventListener("click", async () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    let url = tab.url;
+    console.log("popup loaded");
 
-    let statusText = document.getElementById("statusText");
-    let statusBox = document.getElementById("statusBox");
+    const button = document.getElementById("check");
 
-    // Loading state
-    statusText.innerText = "Scanning target...";
-    statusBox.className = "status checking";
+    button.addEventListener("click", async function () {
 
-    try {
-        let res = await fetch("https://phishxx.onrender.com/predict", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ url: url })
-        });
+        console.log("button clicked");
 
-        let data = await res.json();
+        let statusText = document.getElementById("statusText");
+        let statusBox = document.getElementById("statusBox");
 
-        if (data.is_https === 0) {
-            statusText.innerText = "⚠️ NOT SECURE (HTTP)";
-            statusBox.className = "status warning";
-        }
-        else if (data.prediction === 1) {
-            statusText.innerText = "🚨 PHISHING DETECTED";
+        statusText.innerText = "Scanning target...";
+        statusBox.className = "status checking";
+
+        try {
+            let tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+            let url = tabs[0].url;
+
+            console.log("URL:", url);
+
+            let res = await fetch("https://phishxx.onrender.com/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ url: url })
+            });
+
+            let data = await res.json();
+            console.log("API Response:", data);
+
+            if (data.is_https === 0) {
+                statusText.innerText = "⚠️ NOT SECURE (HTTP)";
+                statusBox.className = "status warning";
+            }
+            else if (data.prediction === 1) {
+                statusText.innerText = "🚨 PHISHING DETECTED";
+                statusBox.className = "status phishing";
+            }
+            else {
+                statusText.innerText = "✅ SAFE WEBSITE";
+                statusBox.className = "status safe";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            statusText.innerText = "❌ CONNECTION ERROR";
             statusBox.className = "status phishing";
         }
-        else {
-            statusText.innerText = "✅ SAFE WEBSITE";
-            statusBox.className = "status safe";
-        }
 
-    } catch (error) {
-        console.error(error);
-        statusText.innerText = "❌ CONNECTION ERROR";
-        statusBox.className = "status phishing";
-    }
+    });
 
 });
