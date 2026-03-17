@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
         if (!url.startsWith("http")) return;
 
         try {
-            let res = await fetch("https://phishing-detection-tool-728u.onrender.com", {
+            let res = await fetch("https://phishing-detection-tool-728u.onrender.com/predict", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

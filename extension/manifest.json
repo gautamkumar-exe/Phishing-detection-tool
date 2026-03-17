@@ -3,7 +3,11 @@
   "name": "Phishing Detector",
   "version": "1.0",
   "permissions": ["tabs", "activeTab"],
-  "host_permissions": ["http://127.0.0.1:5002/*"],
+  "host_permissions": [
+    "https://phishing-detection-tool-728u.onrender.com/*",
+    "http://*/*", 
+    "https://*/*"
+  ],
   "action": {
     "default_popup": "popup.html"
   },
