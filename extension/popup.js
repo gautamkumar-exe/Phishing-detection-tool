@@ -9,7 +9,7 @@ document.getElementById("check").addEventListener("click", async () => {
     statusBox.className = "status checking";
 
     try {
-        let res = await fetch("https://phishing-detection-tool-728u.onrender.com", {
+        let res = await fetch("https://phishing-detection-tool-728u.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
