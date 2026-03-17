@@ -1,15 +1,18 @@
 document.getElementById("check").addEventListener("click", async () => {
 
-    let [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+    // Get current tab URL
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     let url = tab.url;
 
     let statusBox = document.getElementById("statusBox");
 
-    statusBox.innerHTML = '<span class="prompt">$</span> <span class="status-text glow">Analyzing packets...</span>';
-    statusBox.className = "status checking";
+    // Loading state
+    statusBox.innerText = "🔄 Checking...";
+    statusBox.className = "status";
 
     try {
-        let res = await fetch("https://phishing-detection-tool-728u.onrender.com/predict", {
+        // 🔥 LIVE API (Render)
+        let res = await fetch("https://phishxx.onrender.com/predict", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -19,21 +22,23 @@ document.getElementById("check").addEventListener("click", async () => {
 
         let data = await res.json();
 
-        if(data.is_https === 0){
-            statusBox.innerHTML = '<span class="prompt">!</span> <span class="status-text glow">WARNING_INSECURE_HTTP</span>';
+        // 🔥 FINAL LOGIC
+        if (data.is_https === 0) {
+            statusBox.innerText = "⚠️ Not Secure (HTTP)";
             statusBox.className = "status warning";
         }
-        else if(data.prediction === 1){
-            statusBox.innerHTML = '<span class="prompt">[!]</span> <span class="status-text glow">THREAT_DETECTED: PHISHING</span>';
+        else if (data.prediction === 1) {
+            statusBox.innerText = "🚨 Phishing Website";
             statusBox.className = "status phishing";
         }
         else {
-            statusBox.innerHTML = '<span class="prompt">&gt;</span> <span class="status-text glow">STATUS_SECURE: SAFE</span>';
+            statusBox.innerText = "✅ Safe Website";
             statusBox.className = "status safe";
         }
 
     } catch (error) {
-        statusBox.innerHTML = '<span class="prompt">ERR</span> <span class="status-text glow">CONNECTION_FAILED</span>';
+        console.error("API Error:", error);
+        statusBox.innerText = "❌ Error connecting to API";
         statusBox.className = "status phishing";
     }
 
