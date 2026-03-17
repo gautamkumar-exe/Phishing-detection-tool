@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Phishing Detector</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+  
+  <div class="header">
+    <div class="dots">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+    </div>
+    <span class="window-title">PHISH_DETECTOR.SH</span>
+  </div>
+
+  <div class="content">
+    <h1 class="main-title">Phishing <span class="highlight">Detector</span></h1>
+    
+    <div class="console">
+      <p class="prompt">&gt; Initializing intel scan...</p>
+      
+      <div id="statusBox" class="status checking">
+        <span class="prompt">$</span> <span class="status-text glow">Awaiting target URL...</span>
+      </div>
+    </div>
+
+    <button id="check" class="cyber-btn">
+      <span class="btn-text">&gt; INITIATE_SCAN_</span>
+    </button>
+  </div>
+  
+  <div class="footer">
+    <span class="lock-icon">🔒</span> ENCRYPTED CHANNEL &middot; v1.0.0
+  </div>
+
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
