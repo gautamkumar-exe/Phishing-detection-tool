@@ -11,10 +11,17 @@ from src.predict import predict_url
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/")
+def home():
+    return "Phishing Detection API is running!"
+
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.json
     url = data.get("url")
+
+    if not url:
+        return jsonify({"error": "No URL provided"}), 400
 
     result = predict_url(url)
 
@@ -27,7 +34,7 @@ def predict():
     })
 
 
-# 🔥 Render compatible port
+# 🔥 Render compatible port (MOST IMPORTANT)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
